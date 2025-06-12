@@ -14,7 +14,6 @@ public class StreetLightGroup extends Component{
 
     @Id
     private String id=UUID.randomUUID().toString();
-
     private List<Component> children;
 
     @Builder(builderMethodName = "groupBuilder")
@@ -25,10 +24,12 @@ public class StreetLightGroup extends Component{
         this.municipalityId=municipalityId;
         this.id = id;
         this.children = children;
-        this.dataOf=dataOf;
+        this.entityName =dataOf;
     }
 
     public StreetLightGroup() {
         super();
     }
+
+
 }

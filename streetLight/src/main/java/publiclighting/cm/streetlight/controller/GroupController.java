@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import publiclighting.cm.streetlight.dto.GroupDto;
 import publiclighting.cm.streetlight.dto.GroupResponseDto;
-import publiclighting.cm.streetlight.service.GroupService;
+import publiclighting.cm.streetlight.service.GroupServiceImpl;
 
 @RestController
 @RequestMapping("api/v1")
@@ -16,12 +16,13 @@ import publiclighting.cm.streetlight.service.GroupService;
 @Slf4j
 public class GroupController {
 
-    private final GroupService groupService;
+    private final GroupServiceImpl groupService;
 
     @PostMapping("/group")
     public GroupResponseDto createGroup(@Valid GroupDto groupDto ) {
         log.info("Controller has well received instruction of creation of a StreetLightGroup");
         return groupService.create(groupDto);
     }
+
 
 }

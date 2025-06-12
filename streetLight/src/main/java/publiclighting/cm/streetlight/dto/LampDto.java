@@ -1,22 +1,10 @@
-package publiclighting.cm.streetlight.entity;
+package publiclighting.cm.streetlight.dto;
 
-import jakarta.persistence.*;
-import lombok.*;
+import lombok.Data;
 import publiclighting.cm.streetlight.enums.LampType;
 
-import java.io.Serializable;
-
-@EqualsAndHashCode
-@Entity
 @Data
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
-public class Lamp implements Serializable {
-
-    @Id
-    private String id;
-    @Enumerated(EnumType.STRING)
+public class LampDto {
     private LampType lampType;
     private double power;//energy consumption in W
     private double lifeDuration;// for maintenance prevision

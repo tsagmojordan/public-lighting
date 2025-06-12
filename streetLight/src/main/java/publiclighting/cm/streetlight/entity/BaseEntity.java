@@ -10,8 +10,8 @@ import java.util.Date;
 public class BaseEntity implements Serializable {
     protected Date createdAt=new Date();
     protected boolean isDeleted = false;
-    protected String dataOf;
-    protected Date updatedAt=new Date();
+    protected String entityName;
+    protected Date updatedAt;
 
 
 }

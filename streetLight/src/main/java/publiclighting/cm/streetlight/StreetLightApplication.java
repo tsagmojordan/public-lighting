@@ -7,9 +7,12 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import publiclighting.cm.streetlight.entity.ClassForTime;
 import publiclighting.cm.streetlight.entity.LightingProfile;
+import publiclighting.cm.streetlight.entity.StreetLightGroup;
 import publiclighting.cm.streetlight.enums.Ecolor;
 import publiclighting.cm.streetlight.enums.LightingProfileType;
+import publiclighting.cm.streetlight.repository.GroupRepository;
 import publiclighting.cm.streetlight.repository.LightingProfileRepository;
+import publiclighting.cm.streetlight.service.GroupServiceImpl;
 
 @SpringBootApplication
 @Slf4j
@@ -17,6 +20,7 @@ import publiclighting.cm.streetlight.repository.LightingProfileRepository;
 public class StreetLightApplication implements CommandLineRunner {
 
     private final LightingProfileRepository lightingProfileRepository;
+    private final GroupRepository groupRepository;
 
     public static void main(String[] args) {
         SpringApplication.run(StreetLightApplication.class, args);
@@ -33,6 +37,9 @@ public class StreetLightApplication implements CommandLineRunner {
                 .energySavingStartTime(new ClassForTime(00,00,30))
                 .lightingProfileType(LightingProfileType.FESTIVE)
                 .build());
-
+        groupRepository.save(StreetLightGroup.groupBuilder()
+                .id("21dsfd5f46sdfsfsdf-5654dsftg-5645gdsfg")
+                .build());
     }
+
 }
