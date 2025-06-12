@@ -1,13 +1,17 @@
 package publiclighting.cm.streetlight.entity;
 
-import java.io.Serializable;
-import java.time.LocalDateTime;
+import jakarta.persistence.MappedSuperclass;
 
+
+import java.io.Serializable;
+import java.util.Date;
+
+@MappedSuperclass
 public class BaseEntity implements Serializable {
-    protected LocalDateTime createdAt;
-    protected boolean isDeleted;
-    private String entityType;
-    protected LocalDateTime updatedAt;
+    protected Date createdAt=new Date();
+    protected boolean isDeleted = false;
+    protected String dataOf;
+    protected Date updatedAt=new Date();
 
 
 }
