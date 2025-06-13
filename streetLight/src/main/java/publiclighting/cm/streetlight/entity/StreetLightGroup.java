@@ -14,22 +14,24 @@ public class StreetLightGroup extends Component{
 
     @Id
     private String id=UUID.randomUUID().toString();
+    @Column(length = 100000)
     private List<Component> children;
 
     @Builder(builderMethodName = "groupBuilder")
-    public StreetLightGroup(String id,String zoneName, Long municipalityId, LightingProfile lightingProfile, List<Component> children,String dataOf) {
-        super(zoneName,municipalityId,lightingProfile,dataOf);
+    public StreetLightGroup(boolean isDeleted,Location location,String zoneName, Long municipalityId, LightingProfile lightingProfile, List<Component> children,String dataOf) {
         this.lightingProfile=lightingProfile;
         this.zoneName=zoneName;
         this.municipalityId=municipalityId;
-        this.id = id;
         this.children = children;
         this.entityName =dataOf;
+        this.isDeleted=isDeleted;
+        this.location=location;
     }
 
     public StreetLightGroup() {
         super();
     }
+
 
 
 }

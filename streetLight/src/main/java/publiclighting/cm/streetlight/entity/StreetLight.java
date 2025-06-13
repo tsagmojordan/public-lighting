@@ -7,14 +7,12 @@ import lombok.*;
 @EqualsAndHashCode(callSuper = true)
 @Entity
 @Data
-@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public class StreetLight extends Component {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long streetLightId;
+    private String streetLightId;
     private String groupId;
     private String serialNumber;
     private double longitude;
@@ -24,9 +22,9 @@ public class StreetLight extends Component {
     private Lamp lamp;
 
     @Builder(builderMethodName = "streetLightBuilder")
-    public StreetLight(String zoneName, Long municipalityId, LightingProfile lightingProfile, String dateOf, Long streetLightId, String group, String serialNumber, double longitude, double latitude, double height, Lamp lamp) {
-        super(zoneName, municipalityId, lightingProfile, dateOf);
-        this.streetLightId = streetLightId;
+    public StreetLight(String zoneName, Long municipalityId, LightingProfile lightingProfile, String dateOf, String streetLightId, String group, String serialNumber, double longitude, double latitude, double height, Lamp lamp) {
+        this.streetLightId=streetLightId;
+        this.isDeleted=isDeleted;
         this.groupId = group;
         this.serialNumber = serialNumber;
         this.longitude = longitude;

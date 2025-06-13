@@ -4,25 +4,38 @@ import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.experimental.SuperBuilder;
+
+import java.util.Date;
 
 
 @EqualsAndHashCode(callSuper = true)
-@Data
 @MappedSuperclass
+@Data
 public abstract class Component extends BaseEntity {
     protected String zoneName;//neighborhood
+    @OneToOne(cascade = CascadeType.ALL)
+    protected Location location;
     protected Long municipalityId;
     @OneToOne(cascade = CascadeType.ALL)
     protected LightingProfile lightingProfile;
 
+    @Builder
 
 
-    public Component() {
-
+    public boolean componentIsDeleted(){
+        return this.isDeleted;
     }
 
-    public Component(String zoneName, Long municipalityId, LightingProfile lightingProfile, String dateOf) {
-        super();
+    public String getEntityName(){
+        return this.entityName;
+    }
+    public Date getCreatedAt(){
+        return this.createdAt;
+    }
+    public boolean getIsDeleted(){
+        return this.isDeleted;
+    }
+    public Location getLocation(){
+        return this.location;
     }
 }

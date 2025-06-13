@@ -5,5 +5,5 @@ import org.springframework.stereotype.Repository;
 import publiclighting.cm.streetlight.entity.StreetLight;
 
 @Repository
-public interface StreetLightRepository extends JpaRepository<StreetLight, Long> {
+public interface StreetLightRepository extends JpaRepository<StreetLight, String> {
 }

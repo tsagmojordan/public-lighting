@@ -9,7 +9,7 @@ import publiclighting.cm.streetlight.enums.LampType;
 @Data
 @Builder
 public class StreetLightResponseDto {
-    private Long streetlightId;
+    private String streetlightId;
     private String zoneName;
     private Long municipalityId;
     private String groupId;

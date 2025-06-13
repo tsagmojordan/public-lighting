@@ -5,14 +5,19 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import publiclighting.cm.streetlight.dto.GroupDto;
 import publiclighting.cm.streetlight.entity.ClassForTime;
 import publiclighting.cm.streetlight.entity.LightingProfile;
+import publiclighting.cm.streetlight.entity.Location;
 import publiclighting.cm.streetlight.entity.StreetLightGroup;
 import publiclighting.cm.streetlight.enums.Ecolor;
 import publiclighting.cm.streetlight.enums.LightingProfileType;
 import publiclighting.cm.streetlight.repository.GroupRepository;
 import publiclighting.cm.streetlight.repository.LightingProfileRepository;
 import publiclighting.cm.streetlight.service.GroupServiceImpl;
+
+import java.util.UUID;
+
 
 @SpringBootApplication
 @Slf4j
@@ -21,6 +26,7 @@ public class StreetLightApplication implements CommandLineRunner {
 
     private final LightingProfileRepository lightingProfileRepository;
     private final GroupRepository groupRepository;
+    private final GroupServiceImpl groupService;
 
     public static void main(String[] args) {
         SpringApplication.run(StreetLightApplication.class, args);
@@ -38,8 +44,19 @@ public class StreetLightApplication implements CommandLineRunner {
                 .lightingProfileType(LightingProfileType.FESTIVE)
                 .build());
         groupRepository.save(StreetLightGroup.groupBuilder()
-                .id("21dsfd5f46sdfsfsdf-5654dsftg-5645gdsfg")
+//                .id("21dsfd5f46sdfsfsdf-5654dsftg-5645gdsfg")
+                        .lightingProfile(lightingProfileRepository.getOne(1L))
+                        .location(Location.builder().id(UUID.randomUUID().toString())
+                                .description("allant de banane a carrefour du chef")
+                                .regionId(1L)
+                                .departmentId(1L)
+                                .arrondissementId(1L)
+                                .municipalityId(1L)
+                                .zoneName("mendong-carrefour banane")
+                                .build())
                 .build());
+//        System.out.println(groupRepository.findAllByLocation_ZoneName("mendong-carrefour banane").toString());
+
     }
 
 }

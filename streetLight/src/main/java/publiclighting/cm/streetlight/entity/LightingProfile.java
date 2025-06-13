@@ -1,5 +1,6 @@
 package publiclighting.cm.streetlight.entity;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import jakarta.persistence.*;
 import lombok.*;
 import publiclighting.cm.streetlight.enums.Ecolor;
@@ -19,7 +20,7 @@ public class LightingProfile implements Serializable {
     private long id;
     @Enumerated(EnumType.STRING)
     private Ecolor lightingColor;
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL) @JsonSerialize
     private ClassForTime energySavingStartTime;
     private LightingProfileType lightingProfileType;
 
