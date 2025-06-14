@@ -1,5 +1,6 @@
 package publiclighting.cm.streetlight.entity;
 
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
@@ -10,8 +11,8 @@ import java.io.Serializable;
 
 @Data
 @Builder
-@Entity
 @AllArgsConstructor
+@Entity
 public class Location implements Serializable {
     @Id
     private String id;

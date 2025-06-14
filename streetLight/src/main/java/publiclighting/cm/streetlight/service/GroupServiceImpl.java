@@ -46,13 +46,18 @@ public class GroupServiceImpl implements GroupService{
         log.info("==============lightingProfile: {}==============", lightingProfile);
         log.info("==============constructing group entity==============");
         List<Component> children=new ArrayList<>();
+        log.info(Constant.LOG_DECORATION+"location dto: {}"+Constant.LOG_DECORATION, groupDto);
+        log.info(Constant.LOG_DECORATION+"extracting location from dto"+Constant.LOG_DECORATION);
         Location location= Location.builder().id(UUID.randomUUID().toString())
                 .arrondissementId(groupDto.getLocation().getArrondissementId())
                 .departmentId(groupDto.getLocation().getDepartmentId())
                 .regionId(groupDto.getLocation().getRegionId())
                 .description(groupDto.getLocation().getDescription())
                 .build();
+        log.info(Constant.LOG_DECORATION+"location: {}"+Constant.LOG_DECORATION, location);
         locationService.createLocation(location);
+        log.info(Constant.LOG_DECORATION+"saved location",location);
+        log.info(Constant.LOG_DECORATION+"creating group entity"+Constant.LOG_DECORATION);
         StreetLightGroup group = StreetLightGroup.groupBuilder()
 //                .id(UUID.randomUUID().toString())
                 .lightingProfile(lightingProfile)

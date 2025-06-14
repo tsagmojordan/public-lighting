@@ -58,6 +58,7 @@ public class StreetLightServiceImpl implements StreetLightService {
                     .longitude(streetLightDto.getLongitude())
                     .latitude(streetLightDto.getLatitude())
                     .serialNumber(streetLightDto.getSerialNumber())
+                    .isMaster(streetLightDto.isMaster())
                     .group(group.getId())
                     .dateOf(StreetLight.class.getName())
                     .build();

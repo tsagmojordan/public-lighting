@@ -13,23 +13,22 @@ import lombok.*;
 public class StreetLight extends Component {
     @Id
     private String streetLightId;
+    private boolean isMaster=false;
     private String groupId;
     private String serialNumber;
-    private double longitude;
-    private double latitude;
-    private double height;
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private GpsPosition gpsPosition;
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Lamp lamp;
 
     @Builder(builderMethodName = "streetLightBuilder")
-    public StreetLight(String zoneName, Long municipalityId, LightingProfile lightingProfile, String dateOf, String streetLightId, String group, String serialNumber, double longitude, double latitude, double height, Lamp lamp) {
+    public StreetLight(boolean isMaster, LightingProfile lightingProfile, String dateOf, String streetLightId, String group, String serialNumber, GpsPosition position, Lamp lamp) {
         this.streetLightId=streetLightId;
+        this.isMaster=isMaster;
         this.isDeleted=isDeleted;
         this.groupId = group;
+        this.gpsPosition = position;
         this.serialNumber = serialNumber;
-        this.longitude = longitude;
-        this.latitude = latitude;
-        this.height = height;
         this.lamp = lamp;
     }
 

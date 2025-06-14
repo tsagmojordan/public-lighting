@@ -44,7 +44,7 @@ public class StreetLightApplication implements CommandLineRunner {
                 .lightingProfileType(LightingProfileType.FESTIVE)
                 .build());
         groupRepository.save(StreetLightGroup.groupBuilder()
-//                .id("21dsfd5f46sdfsfsdf-5654dsftg-5645gdsfg")
+                        .id("21diff5f46sdfsfsdf-5654dist-5645diff")
                         .lightingProfile(lightingProfileRepository.getOne(1L))
                         .location(Location.builder().id(UUID.randomUUID().toString())
                                 .description("allant de banane a carrefour du chef")
@@ -55,7 +55,7 @@ public class StreetLightApplication implements CommandLineRunner {
                                 .zoneName("mendong-carrefour banane")
                                 .build())
                 .build());
-//        System.out.println(groupRepository.findAllByLocation_ZoneName("mendong-carrefour banane").toString());
+        System.out.println(groupRepository.findAllByLocation_ZoneName("mendong-carrefour banane").toString());
 
     }
 

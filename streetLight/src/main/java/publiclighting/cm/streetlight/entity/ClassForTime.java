@@ -6,12 +6,14 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
+
 @Data
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class ClassForTime {
+public class ClassForTime implements Serializable {
     @Id @GeneratedValue(strategy = GenerationType.UUID )
     private String id;
     private int h;

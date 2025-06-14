@@ -33,6 +33,12 @@ public class GroupController {
         log.info(Constant.LOG_DECORATION+"Controller has well received instruction of adding child to group :{}",groupId+Constant.LOG_DECORATION);
         groupService.addChild(child,groupId);
     }
+
+    @DeleteMapping("/group/{groupId}/delete/child/{childId}")
+    public void deleteChildFromGroup(@PathVariable String childId, String groupId) throws CustomException {
+
+    }
+
     @GetMapping("/group/{id}/children")
     public List<ChildrenOfGroupResponseDto> getGroupChildren(@PathVariable String id) throws CustomException {
         log.info(Constant.LOG_DECORATION+"Controller has well received instruction of fetching children of group :{}",id+Constant.LOG_DECORATION);

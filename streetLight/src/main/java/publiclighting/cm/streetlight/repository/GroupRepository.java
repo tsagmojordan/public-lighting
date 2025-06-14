@@ -8,6 +8,6 @@ import publiclighting.cm.streetlight.entity.StreetLightGroup;
 import java.util.List;
 
 public interface GroupRepository extends JpaRepository<StreetLightGroup, String> {
-    @Query("select StreetLightGroup from StreetLightGroup g where g.location.zoneName=:zoneName")
+    @Query("select g from StreetLightGroup g where g.location.zoneName = :zoneName")
     List<StreetLightGroup> findAllByLocation_ZoneName(@Param("zoneName") String zoneName);
 }
