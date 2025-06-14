@@ -35,6 +35,7 @@ public class StreetLightServiceImpl implements StreetLightService {
     @Override
     public StreetLightResponseDto create(LampDto lampDto, StreetLightDto streetLightDto, String streetLightGroup) throws CustomException {
         Lamp lamp = lampService.createLamp(lampDto);
+        double serialNumberGen=Math.round(Math.random()*1000000000000000000L) + (Math.random()*1250000000000000L);
         GpsPosition gpsPosition = GpsPosition.builder()
                 .hauteur(streetLightDto.getGpsPosition().getHauteur())
                 .longitude(streetLightDto.getGpsPosition().getLongitude())
@@ -56,7 +57,7 @@ public class StreetLightServiceImpl implements StreetLightService {
         streetLight.setLocation(location);
         streetLight.setLamp(lamp);
         streetLight.setLightingProfile(lightingProfile);
-        streetLight.setSerialNumber("STREET-LIGHT" + Math.random() + Math.random() * 10000 + Math.random() + Math.random() * 100 + Math.random() * 10 + Math.random());
+        streetLight.setSerialNumber("STREETLIGHT-" +serialNumberGen);
         streetLightRepository.save(streetLight);
         return StreetLightResponseDto.builder()
                 .gpsPosition(streetLightDto.getGpsPosition())

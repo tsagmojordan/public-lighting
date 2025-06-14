@@ -11,7 +11,7 @@ import java.util.Date;
 @Data
 public abstract class Component extends BaseEntity {
 
-    @OneToOne(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+    @ManyToOne(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     protected Location location;
     @ManyToOne(cascade = CascadeType.ALL)
     protected LightingProfile lightingProfile;
