@@ -58,13 +58,17 @@ public class StreetLightServiceImpl implements StreetLightService {
         streetLight.setLamp(lamp);
         streetLight.setLightingProfile(lightingProfile);
         streetLight.setSerialNumber("STREETLIGHT-" +serialNumberGen);
+        streetLight.setState(State.OFF);
+        group.setHasChildren(true);
+        groupRepository.save(group);
         streetLightRepository.save(streetLight);
+
+
         return StreetLightResponseDto.builder()
                 .gpsPosition(streetLightDto.getGpsPosition())
                 .serialNumber(streetLight.getSerialNumber())
                 .lampType(lamp.getLampType())
                 .zoneName(streetLight.getLocation().getZoneName())
-                .state(streetLight.getState())
                 .isMaster(streetLightDto.isMaster())
                 .state(State.OFF)
                 .lampType(lamp.getLampType())
@@ -79,7 +83,9 @@ public class StreetLightServiceImpl implements StreetLightService {
 
     @Override
     public List<Component> findAllByGroup(String id) {
-        return streetLightRepository.findAllByParentId(id);
+        return streetLightRepository.findAllByParentId(id).stream()
+                .filter(c -> !c.isDeleted())
+                .toList();
     }
 
 

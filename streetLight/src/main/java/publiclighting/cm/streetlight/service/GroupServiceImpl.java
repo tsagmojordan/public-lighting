@@ -15,9 +15,11 @@ import publiclighting.cm.streetlight.exception.CustomException;
 import publiclighting.cm.streetlight.repository.GroupRepository;
 import publiclighting.cm.streetlight.utils.Constant;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -112,24 +114,22 @@ public class GroupServiceImpl implements GroupService {
     @Override
     public GroupResponseDto findGroup(String id) throws CustomException {
         StreetLightGroup group = groupRepository.findById(id).orElseThrow();
-        List<Component> children = group.getChildren();
+        List<Component> children = new ArrayList<>();
         if (group.isDeleted()) throw new CustomException("this group doesn't exist");
 
         if (group.isHasChildren()) {
             List<Component> streetLightChildren = streetLightService.findAllByGroup(id);
-            streetLightChildren.stream()
-                    .filter(c -> !c.isDeleted())
-                    .map(children::add)
-                    .toList();
-
+            children.addAll(streetLightChildren);
         }
         if (group.isHasSubgroup()) {
             groupRepository.findAllByParentId(id);
             List<Component> subgroups = groupRepository.findAllByParentId(id);
+            log.info(Constant.LOG_DECORATION+"subgroups: {}"+Constant.LOG_DECORATION, subgroups);
             subgroups.stream()
                     .filter(c -> !c.isDeleted())
                     .map(children::add)
                     .toList();
+            children.addAll(subgroups);
         }
         return GroupResponseDto.builder()
                 .zoneName(group.getLocation().getZoneName())

@@ -18,4 +18,6 @@ public interface StreetLightService {
     Component findById(String componentId);
 
     List<Component> findAllByGroup(String id);
+
+
 }
