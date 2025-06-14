@@ -20,8 +20,9 @@ public class LightingProfile implements Serializable {
     private long id;
     @Enumerated(EnumType.STRING)
     private Ecolor lightingColor;
-    @OneToOne(cascade = CascadeType.ALL) @JsonSerialize
+    @OneToOne(cascade = CascadeType.ALL)
     private ClassForTime energySavingStartTime;
+    @Enumerated(EnumType.STRING)
     private LightingProfileType lightingProfileType;
 
 }

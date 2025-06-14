@@ -1,15 +1,21 @@
 package publiclighting.cm.streetlight.service;
 
 
+import jakarta.transaction.Transactional;
 import publiclighting.cm.streetlight.dto.LampDto;
 import publiclighting.cm.streetlight.dto.StreetLightDto;
 import publiclighting.cm.streetlight.dto.StreetLightResponseDto;
 import publiclighting.cm.streetlight.entity.Component;
 import publiclighting.cm.streetlight.exception.CustomException;
 
+import java.util.List;
+
+@Transactional
 public interface StreetLightService {
 
-    public StreetLightResponseDto create(LampDto lampDto, StreetLightDto streetLightDto, String streetLightGroup) throws CustomException;
+    StreetLightResponseDto create(LampDto lampDto, StreetLightDto streetLightDto, String streetLightGroup) throws CustomException;
 
     Component findById(String componentId);
+
+    List<Component> findAllByGroup(String id);
 }

@@ -6,6 +6,7 @@ import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 
@@ -13,6 +14,7 @@ import java.io.Serializable;
 @Builder
 @AllArgsConstructor
 @Entity
+@NoArgsConstructor
 public class Location implements Serializable {
     @Id
     private String id;
@@ -23,7 +25,4 @@ public class Location implements Serializable {
     private Long departmentId;
     private Long regionId;
 
-    public Location() {
-
-    }
 }

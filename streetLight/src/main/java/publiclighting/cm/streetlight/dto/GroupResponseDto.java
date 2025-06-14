@@ -3,8 +3,10 @@ package publiclighting.cm.streetlight.dto;
 
 import lombok.Builder;
 import lombok.Data;
-import publiclighting.cm.streetlight.entity.Location;
+import publiclighting.cm.streetlight.entity.Component;
 import publiclighting.cm.streetlight.enums.LightingProfileType;
+
+import java.util.List;
 
 
 @Builder
@@ -12,6 +14,8 @@ import publiclighting.cm.streetlight.enums.LightingProfileType;
 public class GroupResponseDto {
     private String id;
     private LightingProfileType lightingProfileType;
-    private Location location;
-    private boolean hasSubgroup;
+    private String zoneName;
+    private Long communeId;
+    private List<Component> children;
+
 }

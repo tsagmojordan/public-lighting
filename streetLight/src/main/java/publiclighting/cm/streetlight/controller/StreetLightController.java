@@ -27,10 +27,10 @@ public class StreetLightController {
     private final StreetLightService streetLightService;
 
 
-    @Operation(description = "this method allow user to add a new streetLight")
-    @PostMapping("/streetLight/{groupId}")
-    public StreetLightResponseDto addStreetLight(LampDto lampDto, StreetLightDto streetLightDto, @PathVariable String groupId) throws CustomException {
-        log.info(Constant.LOG_DECORATION +"controller has received instruction of creation of a StreetLight"+Constant.LOG_DECORATION);
-        return streetLightService.create(lampDto,streetLightDto,groupId);
-    }
+//    @Operation(description = "this method allow user to add a new streetLight")
+//    @PostMapping("/streetLight/{groupId}")
+//    public StreetLightResponseDto addStreetLight(LampDto lampDto, StreetLightDto streetLightDto, @PathVariable String groupId) throws CustomException {
+//        log.info(Constant.LOG_DECORATION +"controller has received instruction of creation of a StreetLight"+Constant.LOG_DECORATION);
+//        return streetLightService.create(lampDto,streetLightDto,groupId);
+//    }
 }

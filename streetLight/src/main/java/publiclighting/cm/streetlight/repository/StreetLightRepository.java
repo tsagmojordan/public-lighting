@@ -1,9 +1,14 @@
 package publiclighting.cm.streetlight.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+
+import publiclighting.cm.streetlight.entity.Component;
 import publiclighting.cm.streetlight.entity.StreetLight;
 
-@Repository
+import java.util.List;
+
+@EnableJpaRepositories
 public interface StreetLightRepository extends JpaRepository<StreetLight, String> {
+    List<Component> findAllByGroupId(String id);
 }

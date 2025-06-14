@@ -42,6 +42,7 @@ public class StreetLightApplication implements CommandLineRunner {
         lightingProfileRepository.save(LightingProfile.builder().lightingColor(Ecolor.YELLOW)
                 .energySavingStartTime(new ClassForTime(00,00,30))
                 .lightingProfileType(LightingProfileType.FESTIVE)
+
                 .build());
         groupRepository.save(StreetLightGroup.groupBuilder()
                         .id("21diff5f46sdfsfsdf-5654dist-5645diff")
