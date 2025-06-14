@@ -1,5 +1,7 @@
 package publiclighting.cm.streetlight.entity;
 
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.MappedSuperclass;
 import lombok.AllArgsConstructor;
@@ -17,10 +19,14 @@ import java.util.UUID;
 @NoArgsConstructor
 public abstract class BaseEntity implements Serializable {
     @Id
-    protected String id= UUID.randomUUID().toString();
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    protected Long id;
+
     protected Date createdAt=new Date();
     protected boolean isDeleted = false;
     protected String entityName="";
     protected Date updatedAt=new Date();
 
+    public BaseEntity(Date createAt, boolean isDeleted, String entityName, Date updateAt) {
+    }
 }

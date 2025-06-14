@@ -45,7 +45,7 @@ public class StreetLightApplication implements CommandLineRunner {
 
                 .build());
         groupRepository.save(StreetLightGroup.groupBuilder()
-                        .id("21diff5f46sdfsfsdf-5654dist-5645diff")
+                 //       .id("21diff5f46sdfsfsdf-5654dist-5645diff")
                         .lightingProfile(lightingProfileRepository.getOne(1L))
                         .location(Location.builder().id(UUID.randomUUID().toString())
                                 .description("allant de banane a carrefour du chef")

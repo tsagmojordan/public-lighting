@@ -9,7 +9,7 @@ import publiclighting.cm.streetlight.repository.LightingProfileRepository;
 
 @Service
 @AllArgsConstructor
-@Transactional
+
 public class LightingProfileImpl implements LightingProfileService {
 
     private final LightingProfileRepository lightingProfileRepository;

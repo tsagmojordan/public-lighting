@@ -24,11 +24,12 @@ public class StreetLightGroup extends Component{
     private boolean hasChildren=false;//if true,we will fetch them
     private String parentId = "/";//means that this group is a child group
 
+
     @Builder(builderMethodName = "groupBuilder")
-    public StreetLightGroup(String id, Date createAt,boolean isDeleted,String entityName,Date updateAt,
+    public StreetLightGroup( Date createAt,boolean isDeleted,String entityName,Date updateAt,
                             Location location,LightingProfile lightingProfile,
                             boolean hasSubgroup, boolean hasChildren) {
-        super(id,createAt,isDeleted,entityName,updateAt,location,lightingProfile);
+        super(createAt,isDeleted,entityName,updateAt,location,lightingProfile);
         this.hasSubgroup = hasSubgroup;
         this.hasChildren = hasChildren;
         this.children=new ArrayList<>();

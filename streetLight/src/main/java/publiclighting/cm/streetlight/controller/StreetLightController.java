@@ -4,10 +4,8 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+
+import org.springframework.web.bind.annotation.*;
 import publiclighting.cm.streetlight.dto.LampDto;
 import publiclighting.cm.streetlight.dto.StreetLightDto;
 import publiclighting.cm.streetlight.dto.StreetLightResponseDto;
@@ -27,10 +25,11 @@ public class StreetLightController {
     private final StreetLightService streetLightService;
 
 
-//    @Operation(description = "this method allow user to add a new streetLight")
-//    @PostMapping("/streetLight/{groupId}")
-//    public StreetLightResponseDto addStreetLight(LampDto lampDto, StreetLightDto streetLightDto, @PathVariable String groupId) throws CustomException {
-//        log.info(Constant.LOG_DECORATION +"controller has received instruction of creation of a StreetLight"+Constant.LOG_DECORATION);
-//        return streetLightService.create(lampDto,streetLightDto,groupId);
-//    }
+    @Operation(description = "this method allow user to add a new streetLight")
+    @PostMapping("/streetLight/{groupId}")
+    public StreetLightResponseDto addStreetLight(@RequestBody StreetLightDto streetLightDto, @PathVariable String groupId) throws CustomException {
+        LampDto lampDto=streetLightDto.getLampDto();
+        log.info(Constant.LOG_DECORATION +"controller has received instruction of creation of a StreetLight"+Constant.LOG_DECORATION);
+        return streetLightService.create(lampDto,streetLightDto,groupId);
+    }
 }

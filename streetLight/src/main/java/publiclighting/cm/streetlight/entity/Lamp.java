@@ -15,6 +15,8 @@ import java.io.Serializable;
 public class Lamp implements Serializable {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
+
     private String id;
     @Enumerated(EnumType.STRING)
     private LampType lampType;

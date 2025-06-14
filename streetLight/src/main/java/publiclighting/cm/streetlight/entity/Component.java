@@ -11,14 +11,14 @@ import java.util.Date;
 @Data
 public abstract class Component extends BaseEntity {
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     protected Location location;
-    @OneToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL)
     protected LightingProfile lightingProfile;
 
 
-    protected Component(String id, Date createAt, boolean isDeleted, String entityName, Date updateAt, Location location, LightingProfile lightingProfile) {
-        super(id, createAt, isDeleted, entityName, updateAt);
+    protected Component(Date createAt, boolean isDeleted, String entityName, Date updateAt, Location location, LightingProfile lightingProfile) {
+        super(createAt, isDeleted, entityName, updateAt);
         this.location = location;
         this.lightingProfile=lightingProfile;
 

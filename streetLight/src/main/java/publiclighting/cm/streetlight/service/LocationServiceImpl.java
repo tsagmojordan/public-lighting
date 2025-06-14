@@ -25,7 +25,6 @@ public class LocationServiceImpl implements LocationService {
     @Override
     public Location createLocation(LocationDto location) throws CustomException {
         Location locationEntity = locationRepository.save(Location.builder()
-                .id(UUID.randomUUID().toString())
                 .zoneName(location.getZoneName())
                 .description(location.getDescription())
                 .municipalityId(location.getMunicipalityId())

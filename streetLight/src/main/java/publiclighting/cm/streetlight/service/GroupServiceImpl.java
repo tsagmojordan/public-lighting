@@ -40,32 +40,35 @@ public class GroupServiceImpl implements GroupService {
         Location location = locationService.createLocation(groupDto.getLocation());
         LightingProfile lightingProfile = lightingProfileService.getDefaultLightingProfile();
         StreetLightGroup streetLightGroup = StreetLightGroup.groupBuilder()
-                .id(UUID.randomUUID().toString())
                 .createAt(new Date())
                 .updateAt(new Date())
                 .hasChildren(false)
                 .hasSubgroup(false)
                 .isDeleted(false)
                 .build();
+
+      // streetLightGroup.setId(UUID.randomUUID().toString());
         streetLightGroup.setEntityName("StreetLightGroup");
         streetLightGroup.setLightingProfile(lightingProfile);
         streetLightGroup.setLocation(location);
-        streetLightGroup.setParentId("");
+        streetLightGroup.setParentId("/");
         log.info(Constant.LOG_DECORATION + "new group have data: {} " + Constant.LOG_DECORATION +
                 "\n " + Constant.LOG_DECORATION + "now we are saving" + Constant.LOG_DECORATION, groupDto);
         try {
+
             groupRepository.save(streetLightGroup);
+
             log.info(Constant.LOG_DECORATION + "group saved successfully" + Constant.LOG_DECORATION);
         } catch (Exception e) {
             log.error(Constant.LOG_DECORATION + "group save failed due to {}", e.getMessage() + Constant.LOG_DECORATION);
-            throw new CustomException(Constant.WRONG);
+            e.getMessage();
         }
 
         return GroupResponseDto.builder()
                 .id(streetLightGroup.getId())
                 .zoneName(groupDto.getLocation().getZoneName())
                 .communeId(groupDto.getLocation().getMunicipalityId())
-                .lightingProfileType(lightingProfileService.getDefaultLightingProfile().getLightingProfileType())
+                .lightingProfileType(lightingProfile.getLightingProfileType())
                 .children(null)
                 .build();
     }

@@ -9,6 +9,6 @@ import publiclighting.cm.streetlight.entity.StreetLight;
 import java.util.List;
 
 @EnableJpaRepositories
-public interface StreetLightRepository extends JpaRepository<StreetLight, String> {
-    List<Component> findAllByGroupId(String id);
+public interface StreetLightRepository extends JpaRepository<StreetLight, Long> {
+    List<Component> findAllByParentId(String id);
 }

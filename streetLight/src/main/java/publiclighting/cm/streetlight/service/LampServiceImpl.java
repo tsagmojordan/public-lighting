@@ -16,15 +16,12 @@ public class LampServiceImpl implements LampService {
     private final LampRepository lampRepository;
 
     @Override @Transactional
-    public LampDto createLamp(LampDto lampDto) {
-        lampRepository.save(Lamp.builder()
-                .id(UUID.randomUUID().toString())
+    public Lamp createLamp(LampDto lampDto) {
+        return lampRepository.save(Lamp.builder()
                 .price(lampDto.getPrice())
                 .lampType(lampDto.getLampType())
                 .power(lampDto.getPower())
                 .lifeDuration(lampDto.getLifeDuration())
                 .build());
-        return lampDto;
-
     }
 }

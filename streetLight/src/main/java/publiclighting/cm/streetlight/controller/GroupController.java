@@ -56,11 +56,11 @@ public class GroupController {
 //    public List<GroupResponseDto> getGroupsByZone(@PathVariable String zone) throws CustomException {
 //        return groupService.getAllGroupsByZone(zone);
 //    }
-     @Operation(method = "findGroup",summary = "this method allow you to find a group id")
-    @GetMapping("/group/{id}")
-    public GroupResponseDto findGroup(@PathVariable String id) throws CustomException {
-        return groupService.findGroup(id);
-     }
+@Operation(method = "findGroup", summary = "this method allow you to find a group id")
+@GetMapping("/group/{id}")
+public GroupResponseDto findGroup(@PathVariable String id) throws CustomException {
+    return groupService.findGroup(id);
+}
 
 
 //    @GetMapping("/groups/municipality/{municipalityId}")

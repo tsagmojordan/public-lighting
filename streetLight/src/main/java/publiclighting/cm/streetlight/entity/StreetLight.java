@@ -2,6 +2,7 @@ package publiclighting.cm.streetlight.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import publiclighting.cm.streetlight.enums.State;
 
 import java.util.Date;
 
@@ -14,23 +15,27 @@ import java.util.Date;
 public class StreetLight extends Component {
 
     private boolean isMaster=false;
-    private String groupId="";//parent id
+    private String parentId ="";//parent id
     private String serialNumber;
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private GpsPosition gpsPosition;
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Lamp lamp;
+    @Enumerated(EnumType.STRING)
+    private State state=State.OFF;
 
     @Builder(builderMethodName = "streetLightBuilder")
-
-    public StreetLight(String id, Date createAt, boolean isDeleted, String entityName, Date updateAt,
-                       Location location, LightingProfile lightingProfile, String streetLightId, boolean isMaster, String groupId, String serialNumber, GpsPosition gpsPosition, Lamp lamp) {
-        super(id, createAt, isDeleted, entityName, updateAt, location, lightingProfile);
+    public StreetLight( Date createAt, boolean isDeleted, String entityName, Date updateAt,
+                       Location location, LightingProfile lightingProfile,
+                       boolean isMaster, String groupId, String serialNumber,
+                       GpsPosition gpsPosition, Lamp lamp,State state) {
+        super( createAt, isDeleted, entityName, updateAt, location, lightingProfile);
         this.isMaster = isMaster;
-        this.groupId = groupId;
+        this.parentId = groupId;
         this.serialNumber = serialNumber;
         this.gpsPosition = gpsPosition;
         this.lamp = lamp;
+        this.state = state;
     }
 
 

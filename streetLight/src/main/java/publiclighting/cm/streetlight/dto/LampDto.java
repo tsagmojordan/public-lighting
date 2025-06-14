@@ -1,11 +1,15 @@
 package publiclighting.cm.streetlight.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import publiclighting.cm.streetlight.enums.LampType;
 
 @Data
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class LampDto {
     private LampType lampType;
     private double power;//energy consumption in W

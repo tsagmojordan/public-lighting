@@ -10,7 +10,7 @@ import publiclighting.cm.streetlight.exception.CustomException;
 
 import java.util.List;
 
-@Transactional
+
 public interface StreetLightService {
 
     StreetLightResponseDto create(LampDto lampDto, StreetLightDto streetLightDto, String streetLightGroup) throws CustomException;
