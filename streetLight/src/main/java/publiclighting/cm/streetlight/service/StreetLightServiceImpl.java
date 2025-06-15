@@ -88,5 +88,12 @@ public class StreetLightServiceImpl implements StreetLightService {
                 .toList();
     }
 
+    @Override
+    public StreetLight findById(Long id) throws CustomException {
+        StreetLight streetLight= streetLightRepository.findById(id).orElseThrow(()->new CustomException("streetlight not found"));
+        if (streetLight.isDeleted()) throw new CustomException("streetlight not found");
+        else return streetLight;
+    }
+
 
 }

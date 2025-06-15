@@ -6,6 +6,7 @@ import publiclighting.cm.streetlight.dto.LampDto;
 import publiclighting.cm.streetlight.dto.StreetLightDto;
 import publiclighting.cm.streetlight.dto.StreetLightResponseDto;
 import publiclighting.cm.streetlight.entity.Component;
+import publiclighting.cm.streetlight.entity.StreetLight;
 import publiclighting.cm.streetlight.exception.CustomException;
 
 import java.util.List;
@@ -18,6 +19,7 @@ public interface StreetLightService {
     Component findById(String componentId);
 
     List<Component> findAllByGroup(String id);
+    StreetLight findById(Long id) throws CustomException;
 
 
 }

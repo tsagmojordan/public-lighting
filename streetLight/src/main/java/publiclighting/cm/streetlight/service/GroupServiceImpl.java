@@ -3,14 +3,10 @@ package publiclighting.cm.streetlight.service;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import publiclighting.cm.streetlight.dto.ComponentDto;
-import publiclighting.cm.streetlight.dto.GroupDto;
-import publiclighting.cm.streetlight.dto.GroupResponseDto;
-import publiclighting.cm.streetlight.entity.Component;
-import publiclighting.cm.streetlight.entity.LightingProfile;
-import publiclighting.cm.streetlight.entity.Location;
-import publiclighting.cm.streetlight.entity.StreetLightGroup;
+import publiclighting.cm.streetlight.dto.*;
+import publiclighting.cm.streetlight.entity.*;
 import publiclighting.cm.streetlight.exception.CustomException;
 import publiclighting.cm.streetlight.repository.GroupRepository;
 import publiclighting.cm.streetlight.utils.Constant;
@@ -49,7 +45,7 @@ public class GroupServiceImpl implements GroupService {
                 .isDeleted(false)
                 .build();
 
-      // streetLightGroup.setId(UUID.randomUUID().toString());
+        // streetLightGroup.setId(UUID.randomUUID().toString());
         streetLightGroup.setEntityName("StreetLightGroup");
         streetLightGroup.setLightingProfile(lightingProfile);
         streetLightGroup.setLocation(location);
@@ -112,30 +108,66 @@ public class GroupServiceImpl implements GroupService {
     }
 
     @Override
-    public GroupResponseDto findGroup(String id) throws CustomException {
+    public ChildrenResponseDto findGroup(String id) throws CustomException {
         StreetLightGroup group = groupRepository.findById(id).orElseThrow();
-        List<Component> children = new ArrayList<>();
+        ComponentDto componentDto = new ComponentDto();
+
+
         if (group.isDeleted()) throw new CustomException("this group doesn't exist");
 
         if (group.isHasChildren()) {
-            List<Component> streetLightChildren = streetLightService.findAllByGroup(id);
-            children.addAll(streetLightChildren);
+            componentDto.getStreetLightResponseDtos().addAll(streetLightService.findAllByGroup(id).stream()
+                    .map(
+                            component -> {
+                                try {
+                                    StreetLight streetLight = streetLightService.findById(component.getId());
+                                    return ReduiceStreetLightResponseDto.builder()
+                                            .gpsPosition(PositionDto.builder()
+                                                    .hauteur(streetLight.getGpsPosition().getHauteur())
+                                                    .latitude(streetLight.getGpsPosition().getLatitude())
+                                                    .longitude(streetLight.getGpsPosition().getLongitude())
+                                                    .build()
+                                            )
+                                            .state(streetLight.getState())
+                                            .lampType(streetLight.getLamp().getLampType())
+                                            .serialNumber(streetLight.getSerialNumber())
+                                            .serialNumber(streetLight.getSerialNumber())
+                                            .build();
+                                } catch (CustomException e) {
+                                    try {
+                                        throw new CustomException("failed to fetch streelight data of this group", HttpStatus.NO_CONTENT);
+                                    } catch (CustomException ex) {
+                                        throw new RuntimeException(ex);
+                                    }
+                                }
+
+                            }
+                    )
+                    .toList()
+            );
+
         }
         if (group.isHasSubgroup()) {
             groupRepository.findAllByParentId(id);
-            List<Component> subgroups = groupRepository.findAllByParentId(id);
-            log.info(Constant.LOG_DECORATION+"subgroups: {}"+Constant.LOG_DECORATION, subgroups);
-            subgroups.stream()
+            List<Component> subgroups;
+            componentDto.getGroupResponseDtos().addAll(groupRepository.findAllByParentId(id).stream()
                     .filter(c -> !c.isDeleted())
-                    .map(children::add)
-                    .toList();
-            children.addAll(subgroups);
+                    .map(
+                            component -> GroupResponseDto.builder()
+                                    .id(component.getId())
+                                    .lightingProfileType(component.getLightingProfile().getLightingProfileType())
+                                    .communeId(component.getLocation().getMunicipalityId())
+                                    .zoneName(component.getLocation().getZoneName())
+                                    .build()
+
+                    ).toList()
+            );
         }
-        return GroupResponseDto.builder()
-                .zoneName(group.getLocation().getZoneName())
-                .communeId(group.getLocation().getMunicipalityId())
-                .lightingProfileType(lightingProfileService.getDefaultLightingProfile().getLightingProfileType())
-                .children(children)
+        return ChildrenResponseDto.builder()
+                .parentId(group.getParentId())
+                .parentZoneName(group.getLocation().getZoneName())
+                .parentCommuneId(group.getLocation().getMunicipalityId().toString())
+                .children(componentDto)
                 .build();
     }
 }

@@ -1,5 +1,6 @@
 package publiclighting.cm.streetlight.service;
 
+import publiclighting.cm.streetlight.dto.ChildrenResponseDto;
 import publiclighting.cm.streetlight.dto.ComponentDto;
 import publiclighting.cm.streetlight.dto.GroupDto;
 import publiclighting.cm.streetlight.dto.GroupResponseDto;
@@ -23,5 +24,5 @@ public interface GroupService {
 
     List<GroupResponseDto> getAllGroupsByRegion(Long regionId);
 
-    GroupResponseDto findGroup(String id) throws CustomException;
+    ChildrenResponseDto findGroup(String id) throws CustomException;
 }

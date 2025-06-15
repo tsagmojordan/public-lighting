@@ -5,14 +5,15 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.ArrayList;
 import java.util.List;
 
-@Data
 @Builder
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ComponentDto {
-    List<ReduiceStreetLightResponseDto> streetLightResponseDtos=new ArrayList<>();
-    List<GroupResponseDto> groupResponseDtos=new  ArrayList<>();
+public class ChildrenResponseDto {
+    private String parentId;
+    private String parentZoneName;
+    private String parentCommuneId;
+    private ComponentDto children;
 }
