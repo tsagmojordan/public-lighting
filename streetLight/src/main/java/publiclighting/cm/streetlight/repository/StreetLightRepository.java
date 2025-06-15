@@ -11,4 +11,5 @@ import java.util.List;
 @EnableJpaRepositories
 public interface StreetLightRepository extends JpaRepository<StreetLight, Long> {
     List<Component> findAllByParentId(String id);
+    List<StreetLight> findAllStreetLightsByParentId(String id);
 }

@@ -4,6 +4,7 @@ import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import publiclighting.cm.streetlight.dto.LampDto;
 import publiclighting.cm.streetlight.dto.StreetLightDto;
@@ -17,6 +18,7 @@ import publiclighting.cm.streetlight.utils.Constant;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -35,7 +37,7 @@ public class StreetLightServiceImpl implements StreetLightService {
     @Override
     public StreetLightResponseDto create(LampDto lampDto, StreetLightDto streetLightDto, String streetLightGroup) throws CustomException {
         Lamp lamp = lampService.createLamp(lampDto);
-        double serialNumberGen=Math.round(Math.random()*1000000000000000000L) + (Math.random()*1250000000000000L);
+        double serialNumberGen = Math.round(Math.random() * 10000000000000000L) ;
         GpsPosition gpsPosition = GpsPosition.builder()
                 .hauteur(streetLightDto.getGpsPosition().getHauteur())
                 .longitude(streetLightDto.getGpsPosition().getLongitude())
@@ -57,12 +59,26 @@ public class StreetLightServiceImpl implements StreetLightService {
         streetLight.setLocation(location);
         streetLight.setLamp(lamp);
         streetLight.setLightingProfile(lightingProfile);
-        streetLight.setSerialNumber("STREETLIGHT-" +serialNumberGen);
+        streetLight.setSerialNumber("STREETLIGHT-" + serialNumberGen);
         streetLight.setState(State.OFF);
         group.setHasChildren(true);
-        groupRepository.save(group);
-        streetLightRepository.save(streetLight);
 
+        //if there is a master streetlight node in the group, we will return a conflict situation
+        if (streetLightDto.isMaster()) {
+            log.info("StreetLight is MASTER");
+            List<StreetLight> streetLights = findAllByParentId(group.getId()).stream()
+                    .filter(s -> s.isMaster())
+                    .toList();
+            log.info("list of master in the group{}", streetLights);
+
+            if (streetLights.isEmpty()){
+                groupRepository.save(group);
+                streetLightRepository.save(streetLight);
+            }
+            else {
+                throw new CustomException("you are trying to assigning a second master node in the same group,a group can have only one master node", HttpStatus.CONFLICT);
+            }
+        }
 
         return StreetLightResponseDto.builder()
                 .gpsPosition(streetLightDto.getGpsPosition())
@@ -90,9 +106,16 @@ public class StreetLightServiceImpl implements StreetLightService {
 
     @Override
     public StreetLight findById(Long id) throws CustomException {
-        StreetLight streetLight= streetLightRepository.findById(id).orElseThrow(()->new CustomException("streetlight not found"));
+        StreetLight streetLight = streetLightRepository.findById(id).orElseThrow(() -> new CustomException("streetlight not found"));
         if (streetLight.isDeleted()) throw new CustomException("streetlight not found");
         else return streetLight;
+    }
+
+    @Override
+    public List<StreetLight> findAllByParentId(Long id) throws CustomException {
+        return streetLightRepository.findAllStreetLightsByParentId(id.toString()).stream()
+                .filter(component -> !component.isDeleted())
+                .toList();
     }
 
 

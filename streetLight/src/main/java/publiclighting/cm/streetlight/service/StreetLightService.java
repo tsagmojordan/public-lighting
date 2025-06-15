@@ -20,6 +20,7 @@ public interface StreetLightService {
 
     List<Component> findAllByGroup(String id);
     StreetLight findById(Long id) throws CustomException;
+    List<StreetLight> findAllByParentId(Long id) throws CustomException;
 
 
 }
