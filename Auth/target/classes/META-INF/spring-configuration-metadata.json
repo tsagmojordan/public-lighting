@@ -1,0 +1,11 @@
+{
+  "groups": [
+    {
+      "name": "jwt",
+      "type": "publiclighting.cm.auth.config.JwtProperties",
+      "sourceType": "publiclighting.cm.auth.config.JwtProperties"
+    }
+  ],
+  "properties": [],
+  "hints": []
+}
