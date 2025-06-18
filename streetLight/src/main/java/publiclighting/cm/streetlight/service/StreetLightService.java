@@ -14,11 +14,11 @@ import java.util.List;
 
 public interface StreetLightService {
 
-    StreetLightResponseDto create(LampDto lampDto, StreetLightDto streetLightDto, String streetLightGroup) throws CustomException;
+    StreetLightResponseDto create(LampDto lampDto, StreetLightDto streetLightDto, Long streetLightGroup) throws CustomException;
 
     Component findById(String componentId);
 
-    List<Component> findAllByGroup(String id);
+    List<Component> findAllByGroup(Long id);
     StreetLight findById(Long id) throws CustomException;
     List<StreetLight> findAllByParentId(Long id) throws CustomException;
 

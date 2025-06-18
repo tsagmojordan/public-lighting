@@ -24,5 +24,7 @@ public interface GroupService {
 
     List<GroupResponseDto> getAllGroupsByRegion(Long regionId);
 
-    ChildrenResponseDto findGroup(String id) throws CustomException;
+    ChildrenResponseDto findGroup(Long id) throws CustomException;
+
+    GroupResponseDto createSubgroup(GroupDto child, Long groupId) throws CustomException;
 }

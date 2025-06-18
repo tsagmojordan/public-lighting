@@ -108,7 +108,7 @@ public class GroupServiceImpl implements GroupService {
     }
 
     @Override
-    public ChildrenResponseDto findGroup(String id) throws CustomException {
+    public ChildrenResponseDto findGroup(Long id) throws CustomException {
         StreetLightGroup group = groupRepository.findById(id).orElseThrow();
         ComponentDto componentDto = new ComponentDto();
 
@@ -122,6 +122,8 @@ public class GroupServiceImpl implements GroupService {
                                 try {
                                     StreetLight streetLight = streetLightService.findById(component.getId());
                                     return ReduiceStreetLightResponseDto.builder()
+                                            .streetlightId(streetLight.getId())
+                                            .isMaster(streetLight.isMaster())
                                             .gpsPosition(PositionDto.builder()
                                                     .hauteur(streetLight.getGpsPosition().getHauteur())
                                                     .latitude(streetLight.getGpsPosition().getLatitude())
@@ -147,10 +149,11 @@ public class GroupServiceImpl implements GroupService {
             );
 
         }
+
         if (group.isHasSubgroup()) {
-            groupRepository.findAllByParentId(id);
+            groupRepository.findAllByParentId(id.toString());
             List<Component> subgroups;
-            componentDto.getGroupResponseDtos().addAll(groupRepository.findAllByParentId(id).stream()
+            componentDto.getGroupResponseDtos().addAll(groupRepository.findAllByParentId(id.toString()).stream()
                     .filter(c -> !c.isDeleted())
                     .map(
                             component -> GroupResponseDto.builder()
@@ -169,5 +172,26 @@ public class GroupServiceImpl implements GroupService {
                 .parentCommuneId(group.getLocation().getMunicipalityId().toString())
                 .children(componentDto)
                 .build();
+    }
+
+    @Override
+    public GroupResponseDto createSubgroup(GroupDto child, Long groupId) throws CustomException {
+        if (findGroup((groupId)) == null) {
+            throw new CustomException("parent group doesn't exist");
+        }
+        StreetLightGroup parent = groupRepository.findById(groupId).orElseThrow(() -> new CustomException("parent group doesn't exist", HttpStatus.NOT_FOUND));//fetch parent
+        if (parent.getEntityName().equals("StreetLightGroup")) {//check if parent is a group
+
+
+            GroupResponseDto groupResponse = create(child);//create the group
+            StreetLightGroup group = groupRepository.findById(groupResponse.getId()).orElseThrow(() -> new CustomException("group doesn't exist", HttpStatus.NOT_FOUND));//fetch the new group to be sure that the group has been created
+            parent.setHasSubgroup(true);
+            group.setParentId(groupId.toString());
+            groupRepository.save(parent);
+            groupRepository.save(group);
+            return groupResponse;
+        } else {
+            throw new CustomException("parent group is not a group", HttpStatus.CONFLICT);
+        }
     }
 }

@@ -8,9 +8,10 @@ import publiclighting.cm.streetlight.entity.StreetLightGroup;
 
 import java.util.List;
 
-public interface GroupRepository extends JpaRepository<StreetLightGroup, String> {
+public interface GroupRepository extends JpaRepository<StreetLightGroup, Long> {
     @Query("select g from StreetLightGroup g where g.location.zoneName = :zoneName")
     List<StreetLightGroup> findAllByLocation_ZoneName(@Param("zoneName") String zoneName);
 
+//    @Query("select g from StreetLightGroup g where g.")
     List<Component> findAllByParentId(String id);
 }

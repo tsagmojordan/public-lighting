@@ -1,7 +1,6 @@
 package publiclighting.cm.streetlight.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
@@ -9,8 +8,6 @@ import publiclighting.cm.streetlight.dto.*;
 import publiclighting.cm.streetlight.exception.CustomException;
 import publiclighting.cm.streetlight.service.GroupServiceImpl;
 import publiclighting.cm.streetlight.utils.Constant;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("api/v1")
@@ -30,9 +27,9 @@ public class GroupController {
 
 
     @PostMapping("/group/{groupId}/subgroup")
-    public void addChildToGroup(@RequestBody GroupDto child, @PathVariable String groupId) throws CustomException {
-        log.info(Constant.LOG_DECORATION+"Controller has well received instruction of adding child to group :{}",groupId+Constant.LOG_DECORATION);
-        groupService.addChild(childComponentDto,groupId);
+    public GroupResponseDto createSubgroup(@RequestBody GroupDto child, @PathVariable Long groupId) throws CustomException {
+        log.info(Constant.LOG_DECORATION+"Controller has well received instruction of adding child to group :{}"+Constant.LOG_DECORATION,groupId);
+        return groupService.createSubgroup(child,groupId);
     }
 //
 //    @DeleteMapping("/group/{groupId}/delete/child/{childId}")
@@ -58,7 +55,7 @@ public class GroupController {
 //    }
 @Operation(method = "findGroup", summary = "this method allow you to find a group id")
 @GetMapping("/group/{id}")
-public ChildrenResponseDto findGroup(@PathVariable String id) throws CustomException {
+public ChildrenResponseDto findGroup(@PathVariable Long id) throws CustomException {
     return groupService.findGroup(id);
 }
 
