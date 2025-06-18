@@ -29,11 +29,11 @@ public class GroupController {
 
 
 
-//    @PostMapping("/group/child")
-//    public void addChildToGroup(ComponentDto child, String groupId) throws CustomException {
-//        log.info(Constant.LOG_DECORATION+"Controller has well received instruction of adding child to group :{}",groupId+Constant.LOG_DECORATION);
-//        groupService.addChild(child,groupId);
-//    }
+    @PostMapping("/group/{groupId}/subgroup")
+    public void addChildToGroup(@RequestBody GroupDto child, @PathVariable String groupId) throws CustomException {
+        log.info(Constant.LOG_DECORATION+"Controller has well received instruction of adding child to group :{}",groupId+Constant.LOG_DECORATION);
+        groupService.addChild(childComponentDto,groupId);
+    }
 //
 //    @DeleteMapping("/group/{groupId}/delete/child/{childId}")
 //    public void deleteChildFromGroup(@PathVariable String childId, String groupId) throws CustomException {

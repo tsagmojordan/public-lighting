@@ -135,7 +135,7 @@ public class GroupServiceImpl implements GroupService {
                                             .build();
                                 } catch (CustomException e) {
                                     try {
-                                        throw new CustomException("failed to fetch streelight data of this group", HttpStatus.NO_CONTENT);
+                                        throw new CustomException("failed to fetch streetlight data of this group", HttpStatus.NO_CONTENT);
                                     } catch (CustomException ex) {
                                         throw new RuntimeException(ex);
                                     }
