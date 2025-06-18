@@ -69,19 +69,19 @@ public class StreetLightApplication implements CommandLineRunner {
                 .build();
         locationRepository.save(location2);
 
-        groupRepository.save(StreetLightGroup.groupBuilder()
-                        .lightingProfile(lightingProfileRepository.getOne(1L))
-                        .location(locationRepository.getOne(1L))
-                        .entityName("StreetLightGroup")
-                .build());
-        groupRepository.save(StreetLightGroup.groupBuilder()
-                .lightingProfile(lightingProfileRepository.getOne(1L))
-                .location(locationRepository.getOne(2L))
-                .entityName("StreetLightGroup")
-                .build());
-
-
-
+//        groupRepository.save(StreetLightGroup.groupBuilder()
+//                        .lightingProfile(lightingProfileRepository.getOne(1L))
+//                        .location(locationRepository.getOne(1L))
+//                        .entityName("StreetLightGroup")
+//                .build());
+//        groupRepository.save(StreetLightGroup.groupBuilder()
+//                .lightingProfile(lightingProfileRepository.getOne(1L))
+//                .location(locationRepository.getOne(2L))
+//                .entityName("StreetLightGroup")
+//                .build());
+//
+//
+//
     }
 
 }

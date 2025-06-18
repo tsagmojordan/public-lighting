@@ -86,26 +86,44 @@ public class GroupServiceImpl implements GroupService {
 
     }
 
-
     @Override
-    public List<GroupResponseDto> getAllGroups() {
-        return List.of();
+    public List<ChildrenResponseDto> getAllGroups() throws CustomException {
+        List<StreetLightGroup> groups =groupRepository.findAll();
+        return getChildrenResponseDtos(groups);
     }
 
     @Override
-    public List<GroupResponseDto> getAllGroupsByZone(String zoneName) throws CustomException {
-        return List.of();
+    public List<ChildrenResponseDto> getAllGroupsByZone(String zoneName) throws CustomException {
+        List<StreetLightGroup> groups =groupRepository.findAllByLocation_ZoneName(zoneName);
+        return getChildrenResponseDtos(groups);
+    }
+
+    private List<ChildrenResponseDto> getChildrenResponseDtos(List<StreetLightGroup> groups) throws CustomException {
+        if (groups.isEmpty()){
+            throw new CustomException(Constant.NOT_FOUND, HttpStatus.NOT_FOUND);
+        }
+        List<ChildrenResponseDto> response=new ArrayList<>();
+        for (StreetLightGroup streetLightGroup : groups) {
+            response.add(
+                    findGroup(streetLightGroup.getId())
+            );
+        }
+        return response;
+    }
+
+
+    @Override
+    public  List<ChildrenResponseDto> getAllGroupsByMunicipality(Long municipalityId) throws CustomException {
+        List<StreetLightGroup> groups =groupRepository.findAllByMunicipalityId(municipalityId);
+        return getChildrenResponseDtos(groups);
     }
 
     @Override
-    public List<GroupResponseDto> getAllGroupsByMunicipality(Long municipalityId) {
-        return List.of();
+    public List<ChildrenResponseDto> getAllGroupsByRegion(Long regionId) throws CustomException {
+        List<StreetLightGroup> groups =groupRepository.findAllByRegionId(regionId);
+        return getChildrenResponseDtos(groups);
     }
 
-    @Override
-    public List<GroupResponseDto> getAllGroupsByRegion(Long regionId) {
-        return List.of();
-    }
 
     @Override
     public ChildrenResponseDto findGroup(Long id) throws CustomException {

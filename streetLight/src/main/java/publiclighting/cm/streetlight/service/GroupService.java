@@ -16,13 +16,13 @@ public interface GroupService {
     void addChild(Component child, StreetLightGroup group) throws CustomException;
     void addChild(ComponentDto child, String groupId) throws CustomException;
 
-    List<GroupResponseDto> getAllGroups();
+    List<ChildrenResponseDto>  getAllGroups() throws CustomException;
 
-    List<GroupResponseDto> getAllGroupsByZone(String zoneName) throws CustomException;
+    List<ChildrenResponseDto>  getAllGroupsByZone(String zoneName) throws CustomException;
 
-    List<GroupResponseDto> getAllGroupsByMunicipality(Long municipalityId);
+    List<ChildrenResponseDto> getAllGroupsByMunicipality(Long municipalityId) throws CustomException;
 
-    List<GroupResponseDto> getAllGroupsByRegion(Long regionId);
+    List<ChildrenResponseDto>  getAllGroupsByRegion(Long regionId) throws CustomException;
 
     ChildrenResponseDto findGroup(Long id) throws CustomException;
 
