@@ -1,0 +1,40 @@
+<div class="container">
+  <div class="container-child">
+    <div class="langue">
+      <select name="language" id="langue" [(ngModel)]="selectedLanguage" (ngModelChange)="onLanguageChange($event)">
+        <option value="Francais">Français</option>
+        <option value="English">English</option>
+      </select>
+    </div>
+    <div class="title">
+      <h1>{{ title }}</h1>
+      <p>{{ subtitle }}</p>
+    </div>
+    <div class="filtre-territory">
+      <div class="filtre">
+        <select name="region" id="region" [(ngModel)]="selectedRegion" (ngModelChange)="onRegionChange($event)" >
+          <option value="Region" disabled selected>{{ region }}</option>
+          @for (r of regions; track r) {
+            <option [value]="r.nom">{{ r.nom }}</option>
+          }
+        </select>
+      </div>
+      <div class="filtre">
+        <select name="departement" id="departement" [(ngModel)]="selectedDepartment" (ngModelChange)="onDepartmentChange($event)" [disabled]="!selectedRegion">
+          <option value="Departement" disabled selected>Departement</option>
+          @for (d of departments; track d) {
+            <option [value]="d.nom">{{ d.nom }}</option>
+          }
+        </select>
+      </div>
+      <div class="filtre">
+        <select name="arrondissement" id="arrondissement" [(ngModel)]="selectedArrondissement" (ngModelChange)="onArrondissementChange($event)" [disabled]="!selectedDepartment">
+          <option value="Arrondissement" disabled selected>Arrondissement</option>
+          @for (a of arrondissements; track a) {
+            <option [value]="a.nom">{{ a.nom }}</option>
+          }
+        </select>
+      </div>
+    </div>
+  </div>
+</div>

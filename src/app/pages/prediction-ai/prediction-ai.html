@@ -1,0 +1,36 @@
+<div class="container">
+  <app-sidebar></app-sidebar>
+  <app-navbar></app-navbar>
+
+  <div class="info">
+    <div class="info-data">
+      <div class="alignement-robot">
+        <h3>Intelligence Artificielle MIEP</h3>
+        <img src="robot.svg"/>
+      </div>
+
+      <p>Système d'analyse pour l'optimisation de l'éclairage public national </p>
+
+    </div>
+    <div class="search">
+      <form>
+        <input type="search" placeholder="ask your question to IA" name="search" id="search">
+        <button class="search-btn"><img src="send.svg" /></button>
+      </form>
+    </div>
+    <button class="configure-btn">Configurer</button>
+
+  </div>
+
+
+  <div class="box">
+    <app-box title="Predictions Générées" icon="cercle.svg" [total]=totalPrediction [percent]=indiceActifStreetLight
+             color="purple"/>
+    <app-box title="Pannes Evités" icon="defense.svg" [total]=avoidBrokenDown [percent]=indiceActifStreetLight
+             color="green"/>
+    <app-box title="Economie Réalisée" icon="cash.svg" [total]=moneySaved [percent]=indiceBrokenDownStreetLight
+             color="blue"/>
+    <app-box title="Précision IA" icon="precision.svg" [total]=aiPrecision [percent]=indicePowerSaved color="orange"/>
+  </div>
+
+</div>

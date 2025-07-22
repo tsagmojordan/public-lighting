@@ -1,0 +1,62 @@
+.container {
+  width: 86vw;
+  height: 90px;
+  background: white;
+
+  box-shadow: 10px 0 10px rgba(0, 0, 0, 0.2);
+  margin-left: 14.1vw;
+  position: fixed;
+}
+.container-child{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  height: 90px;
+  align-items: center;
+  margin-top: 0px;
+  background: linear-gradient(to right, #27abd1,#2a3f65);
+
+}
+.filtre-territory{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  width: 30%;
+  margin-right: 0px;
+}
+.title{
+  color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+
+
+}
+.title p{
+  margin-top:0px ;
+}
+.title h1{
+  font-family: "Barlow Condensed", sans-serif;
+  margin-bottom: 0;
+}
+.title h2{
+  font-weight:  lighter;
+  color: #2a3f65;
+  font-family: "Courier 10 Pitch";
+
+}
+select{
+  width: 120px;
+  height: 40px;
+  border-radius: 5px;
+  text-align: center; /* Centrer le texte */
+  padding: 0; /* Éviter le remplissage par défaut */
+  appearance: none; /* Supprimer le style par défaut du select (si nécessaire) */
+  background-color: white; /* Couleur de fond */
+  border: 1px solid #ccc; /* Bordure */
+  font-family: Arial, sans-serif; /* Police */
+  font-size: 16px; /* Taille de police */
+
+
+}

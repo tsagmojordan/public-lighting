@@ -1,0 +1,19 @@
+<div class="container">
+  <app-sidebar></app-sidebar>
+  <app-navbar></app-navbar>
+  <div class="box">
+    <app-box title="Total Lampadaire" icon="light.svg" [total]=streetLight [percent]=indiceActifStreetLight color="blue" />
+    <app-box title="Total Actif" icon="led-on.svg" [total]=actifStreetLight [percent]=indiceActifStreetLight color="green"/>
+    <app-box title="En Panne" icon="led-off.svg" [total]=brokenDownStreetLight [percent]=indiceBrokenDownStreetLight color="red"/>
+    <app-box title="Economie d'Energie" icon="power.svg" [total]=powerSaved [percent]=indicePowerSaved color="yellow"/>
+  </div>
+  <div class="chart">
+    <div class="linear-chart">
+      <app-linear-chart/>
+    </div>
+    <div class="colum-chart">
+      <app-colum-chart/>
+    </div>
+  </div>
+</div>
+

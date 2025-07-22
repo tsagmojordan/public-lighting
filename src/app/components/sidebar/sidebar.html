@@ -1,0 +1,17 @@
+<div class="container">
+  <header>
+    <img ngSrc="logo.png" alt="logo" title="logo" height="1024" width="1024">
+    <p style="color: yellow; font-size: large;font-weight: bolder">{{userConnected}}</p>
+  </header>
+  <div class="side-bar">
+    <ul class="liste">
+      @for (data of data; track data) {
+        <li><button routerLink={{data.link}} routerLinkActive="active"><img src={{data.src}}>   {{ data.name }}</button></li>
+      }
+    </ul>
+  </div>
+  <footer>
+    <p style="color:yellow;text-align: center;font-size: x-small;">&copy; 2025 MINEE - Tous droits réservés</p>
+  </footer>
+
+</div>

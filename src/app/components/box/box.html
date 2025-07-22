@@ -1,0 +1,15 @@
+<div class="container" [style.borderLeftColor]="color" >
+  <header id="header">
+    <p class="title">{{title}}</p>
+    <div class="icone">
+      <div class="icone" [style.background-color]="color">
+      <img [src]=icon />
+      </div>
+    </div>
+  </header>
+
+  <div class="quantity">
+    <p class="total">{{total}}</p>
+    <p class="percentage" [style.color]="indiceColor">{{percent}}% ce {{period}} </p>
+  </div>
+</div>

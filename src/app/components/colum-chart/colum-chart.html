@@ -1,0 +1,37 @@
+<div class="chart-container">
+<!--  <h2>Gestion des Lampadaires par Région</h2>-->
+
+  <div class="controls">
+<!--
+    <label for="regionSelect">Sélectionner une région :</label>
+    <select id="regionSelect" [(ngModel)]="selectedRegion" (change)="onRegionChange()" class="region-select">
+      <option value="all">Toutes les régions</option>
+      <option *ngFor="let region of regions" [value]="region.region">
+        {{ region.region }}
+      </option>
+    </select>
+-->
+
+    <button (click)="toggleView()" class="btn-toggle">
+      {{ showPercentage ? 'Afficher en nombres' : 'Afficher en pourcentage' }}
+    </button>
+  </div>
+
+  <canvas #chartCanvas width="400" height="200"></canvas>
+
+<!--  <div class="stats">-->
+<!--    <div class="stat-card">-->
+<!--      <h3>Total Pannes</h3>-->
+<!--      <p>{{ getTotalPannes() }}</p>-->
+<!--    </div>-->
+<!--    <div class="stat-card">-->
+<!--      <h3>Total Dépannages</h3>-->
+<!--      <p>{{ getTotalDepannages() }}</p>-->
+<!--    </div>-->
+<!--    <div class="stat-card">-->
+<!--      <h3>Taux de Résolution</h3>-->
+<!--      <p>{{ getResolutionRate() }}%</p>-->
+<!--    </div>-->
+<!--  </div>-->
+</div>
+
