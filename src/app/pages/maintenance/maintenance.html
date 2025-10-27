@@ -1,5 +1,275 @@
 <div class="container">
   <app-sidebar></app-sidebar>
   <app-navbar></app-navbar>
+  <!-- maintenance.component.html -->
+  <div class="maintenance-container">
+    <!-- Header -->
+    <div class="page-header">
+      <div>
+        <h1 class="page-title">Gestion des Maintenances</h1>
+        <p class="page-subtitle">Suivi en temps réel des interventions par commune</p>
+      </div>
+      <div class="header-actions">
+        <button class="btn btn-secondary" (click)="exporterRapport()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+            <polyline points="7 10 12 15 17 10"/>
+            <line x1="12" y1="15" x2="12" y2="3"/>
+          </svg>
+          Exporter le rapport
+        </button>
+        <button class="btn btn-primary" (click)="planifierMaintenance()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="12" y1="5" x2="12" y2="19"/>
+            <line x1="5" y1="12" x2="19" y2="12"/>
+          </svg>
+          Planifier maintenance
+        </button>
+      </div>
+    </div>
 
+    <!-- Stats Cards -->
+    <div class="stats-grid">
+      <app-box
+        title="Total Maintenances"
+        icon="wrench.svg"
+        [total]="totalMaintenances.total"
+        [percent]="totalMaintenances.unit"
+        color="blue"
+      />
+
+      <app-box
+        title="Maintenances Urgentes"
+        icon="alert.svg"
+        [total]="maintenancesUrgentes.total"
+        [percent]="maintenancesUrgentes.unit"
+        color="red"
+      />
+
+      <app-box
+        title="Temps de Latence Moyen"
+        icon="clock.svg"
+        [total]="tempsLatenceMoyen.total"
+        [percent]="tempsLatenceMoyen.unit"
+        color="orange"
+      />
+
+      <app-box
+        title="Taux de Réussite"
+        icon="check.svg"
+        [total]="tauxReussite.total"
+        [percent]="tauxReussite.unit"
+        color="green"
+      />
+    </div>
+
+    <!-- Filtres et Actions -->
+    <div class="filters-section">
+      <div class="filters">
+        <select class="filter-select" [(ngModel)]="selectedPeriode">
+          <option value="semaine">Cette semaine</option>
+          <option value="mois" selected>Ce mois</option>
+          <option value="trimestre">Ce trimestre</option>
+          <option value="annee">Cette année</option>
+        </select>
+
+        <select class="filter-select" [(ngModel)]="selectedCommune" (ngModelChange)="filterByCommune()">
+          <option *ngFor="let commune of communes" [value]="commune">{{ commune }}</option>
+        </select>
+      </div>
+
+      <button class="btn-alert" (click)="voirAlertes()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+          <line x1="12" y1="9" x2="12" y2="13"/>
+          <line x1="12" y1="17" x2="12.01" y2="17"/>
+        </svg>
+        {{ maintenancesUrgentes.total }} Alertes
+      </button>
+    </div>
+
+    <!-- Maintenances par Commune -->
+    <div class="section-card">
+      <div class="section-header">
+        <div class="section-title-wrapper">
+          <div class="section-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#8b5cf6" stroke-width="2">
+              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+              <circle cx="12" cy="10" r="3"/>
+            </svg>
+          </div>
+          <h2 class="section-title">Maintenances par Commune</h2>
+        </div>
+      </div>
+
+      <div class="communes-grid">
+        <div class="commune-card" *ngFor="let commune of filteredMaintenances">
+          <div class="commune-header">
+            <h3 class="commune-name">{{ commune.commune }}</h3>
+            <span class="status-badge" [ngClass]="getCommuneStatus(commune.tempsLatence)">
+            {{ commune.tempsLatence }}h latence
+          </span>
+          </div>
+
+          <div class="commune-stats">
+            <div class="stat-item">
+              <span class="stat-value">{{ commune.effectuees }}</span>
+              <span class="stat-label">Effectuées</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-value">{{ commune.enCours }}</span>
+              <span class="stat-label">En cours</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-value">{{ commune.planifiees }}</span>
+              <span class="stat-label">Planifiées</span>
+            </div>
+            <div class="stat-item urgent">
+              <span class="stat-value">{{ commune.urgentes }}</span>
+              <span class="stat-label">Urgentes</span>
+            </div>
+          </div>
+
+          <div class="commune-progress">
+            <div class="progress-label">
+              <span>Taux de réussite</span>
+              <span class="progress-value">{{ commune.tauxReussite }}%</span>
+            </div>
+            <div class="progress-bar">
+              <div class="progress-fill"
+                   [style.width.%]="commune.tauxReussite"
+                   [style.background-color]="commune.color">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Graphiques -->
+    <div class="charts-grid">
+      <!-- Types de Maintenance -->
+      <div class="chart-card">
+        <div class="chart-header">
+          <div class="chart-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#8b5cf6" stroke-width="2">
+              <circle cx="12" cy="12" r="10"/>
+              <line x1="12" y1="2" x2="12" y2="6"/>
+              <line x1="12" y1="18" x2="12" y2="22"/>
+              <line x1="4.93" y1="4.93" x2="7.76" y2="7.76"/>
+            </svg>
+          </div>
+          <h3 class="chart-title">Types de Maintenance</h3>
+        </div>
+
+        <div class="types-list">
+          <div class="type-item" *ngFor="let type of typesMaintenances">
+            <div class="type-header">
+              <div class="type-info">
+                <span class="type-dot" [style.background-color]="type.color"></span>
+                <span class="type-name">{{ type.type }}</span>
+              </div>
+              <span class="type-count">{{ type.count }}</span>
+            </div>
+            <div class="type-bar">
+              <div class="type-fill"
+                   [style.width.%]="type.pourcentage"
+                   [style.background-color]="type.color">
+              </div>
+            </div>
+            <span class="type-percent">{{ type.pourcentage }}%</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Évolution Temps de Latence -->
+      <div class="chart-card">
+        <div class="chart-header">
+          <div class="chart-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#8b5cf6" stroke-width="2">
+              <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/>
+              <polyline points="17 6 23 6 23 12"/>
+            </svg>
+          </div>
+          <h3 class="chart-title">Évolution Temps de Latence (heures)</h3>
+        </div>
+
+        <div class="latence-chart">
+          <div class="latence-bars">
+            <div class="latence-item" *ngFor="let data of latenceData">
+              <div class="latence-bar-wrapper">
+                <div class="latence-bar moyenne"
+                     [style.height.%]="getBarHeight(data.moyenne, maxLatence)"
+                     [class.over-objectif]="data.moyenne > data.objectif">
+                </div>
+                <div class="latence-objectif"
+                     [style.height.%]="getBarHeight(data.objectif, maxLatence)">
+                </div>
+              </div>
+              <span class="latence-label">{{ data.periode }}</span>
+            </div>
+          </div>
+
+          <div class="latence-legend">
+            <div class="legend-item">
+              <span class="legend-color moyenne"></span>
+              <span>Temps moyen</span>
+            </div>
+            <div class="legend-item">
+              <span class="legend-color objectif"></span>
+              <span>Objectif (4h)</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tableau comparatif -->
+    <div class="section-card">
+      <div class="section-header">
+        <div class="section-title-wrapper">
+          <div class="section-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#8b5cf6" stroke-width="2">
+              <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+              <polyline points="9 22 9 12 15 12 15 22"/>
+            </svg>
+          </div>
+          <h2 class="section-title">Tableau Comparatif des Communes</h2>
+        </div>
+      </div>
+
+      <div class="table-container">
+        <table class="comparison-table">
+          <thead>
+          <tr>
+            <th>Commune</th>
+            <th>Effectuées</th>
+            <th>En cours</th>
+            <th>Planifiées</th>
+            <th>Urgentes</th>
+            <th>Latence</th>
+            <th>Réussite</th>
+            <th>Statut</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let commune of filteredMaintenances" [class.highlight]="commune.urgentes > 20">
+            <td class="commune-name-cell">{{ commune.commune }}</td>
+            <td>{{ commune.effectuees }}</td>
+            <td>{{ commune.enCours }}</td>
+            <td>{{ commune.planifiees }}</td>
+            <td class="urgent-cell">{{ commune.urgentes }}</td>
+            <td [class.warning]="commune.tempsLatence > 5">{{ commune.tempsLatence }}h</td>
+            <td>{{ commune.tauxReussite }}%</td>
+            <td>
+              <span class="table-badge" [ngClass]="getCommuneStatus(commune.tempsLatence)">
+                {{ getCommuneStatus(commune.tempsLatence) }}
+              </span>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
 </div>

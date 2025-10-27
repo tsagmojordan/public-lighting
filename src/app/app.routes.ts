@@ -5,7 +5,7 @@ import {Maintenance} from './pages/maintenance/maintenance';
 import {DasbordMinee} from './pages/dasbord-minee/dasbord-minee';
 import {Rapport} from './pages/rapport/rapport';
 import {PredictionAi} from './pages/prediction-ai/prediction-ai';
-import {Notification} from './pages/notification/notification';
+import { Notifications} from './pages/notification/notification';
 import {Login} from './pages/login/login';
 import {LampadaireManagementComponent} from './pages/lampadaire/lampadaire';
 
@@ -19,6 +19,6 @@ export const routes: Routes = [
   {path: 'maintenance', component: Maintenance},
   {path: 'rapport', component: Rapport},
   {path: 'prediction-ia', component:PredictionAi},
-  {path: 'notification', component: Notification},
+  {path: 'notification', component: Notifications},
   {path: 'login', component: Login},
 ];
