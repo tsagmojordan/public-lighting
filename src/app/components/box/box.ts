@@ -1,4 +1,4 @@
-import {Component, Input, input, OnInit} from '@angular/core';
+import {Component, Input, input, numberAttribute, OnInit} from '@angular/core';
 import {NgStyle} from '@angular/common';
 
 @Component({
@@ -12,9 +12,9 @@ import {NgStyle} from '@angular/common';
 export class Box implements OnInit {
   @Input()  title: string="box-title";
   @Input()  icon: string="";
-  @Input()  percent:number=0;
+  @Input({transform: numberAttribute})  percent:number=0;
   @Input() printedPercent:string="0";
-  @Input()  total:number=0;
+  @Input({transform: numberAttribute})  total:number=0;
   @Input() color:string='green';
   @Input() period: string='mois';
   indiceColor: string="green";

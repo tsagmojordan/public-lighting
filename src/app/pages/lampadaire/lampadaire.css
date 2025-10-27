@@ -1,0 +1,198 @@
+.container {
+
+  background-color: #f5f5f5;
+  min-height: 100vh;
+
+}
+
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 32px;
+}
+
+h1 {
+  font-size: 24px;
+  font-weight: 600;
+  color: #1a1a1a;
+  margin: 0;
+}
+
+.btn-add {
+  background-color: #7c3aed;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.btn-add:hover {
+  background-color: #6d28d9;
+}
+
+.filters {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+}
+
+.search-input {
+  flex: 1;
+  min-width: 200px;
+  padding: 10px 16px;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 14px;
+  background-color: white;
+}
+
+.filter-select {
+  padding: 10px 16px;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 14px;
+  background-color: white;
+  cursor: pointer;
+  min-width: 150px;
+}
+
+.Ma_table_lampadaire{
+  width: 80%;
+  margin-left: 17%;
+  padding-top: 8%;
+
+}
+
+.btn-export {
+  background-color: #10b981;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.btn-export:hover {
+  background-color: #059669;
+}
+
+.table-container {
+  background-color: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.lampadaire-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+thead {
+  background-color: #f9fafb;
+}
+
+th {
+  text-align: left;
+  padding: 16px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #6b7280;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+td {
+  padding: 16px;
+  border-bottom: 1px solid #f3f4f6;
+  font-size: 14px;
+  color: #1f2937;
+}
+
+tbody tr:hover {
+  background-color: #f9fafb;
+}
+
+.id-cell {
+  font-weight: 600;
+  color: #1a1a1a;
+}
+
+.badge {
+  display: inline-block;
+  padding: 6px 12px;
+  border-radius: 16px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.badge-operationnel {
+  background-color: #d1fae5;
+  color: #065f46;
+}
+
+.badge-panne {
+  background-color: #fee2e2;
+  color: #991b1b;
+}
+
+.badge-maintenance {
+  background-color: #fef3c7;
+  color: #92400e;
+}
+
+.actions-cell {
+  display: flex;
+  gap: 8px;
+}
+
+.btn-action {
+  padding: 6px 12px;
+  border: none;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-modifier {
+  background-color: #dbeafe;
+  color: #1e40af;
+}
+
+.btn-modifier:hover {
+  background-color: #bfdbfe;
+}
+
+.btn-controler {
+  background-color: #d1fae5;
+  color: #065f46;
+}
+.liste{
+  width: 80px;
+}
+
+.btn-controler:hover {
+  background-color: #a7f3d0;
+}
+
+.btn-details {
+  background-color: #fce7f3;
+  color: #9f1239;
+}
+
+.btn-details:hover {
+  background-color: #fbcfe8;
+}

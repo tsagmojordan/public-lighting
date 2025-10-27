@@ -1,5 +1,97 @@
 <div class="container">
   <app-sidebar></app-sidebar>
   <app-navbar></app-navbar>
+    <div class="Ma_table_lampadaire">
+      <div class="header">
+        <h1>Gestion des Lampadaires</h1>
+        <button class="btn-add" (click)="ajouterLampadaire()">
+          + Ajouter un Lampadaire
+        </button>
+      </div>
 
+      <div class="filters">
+        <input
+          type="text"
+          class="search-input"
+          placeholder="Rechercher par ID ou localisation"
+          [(ngModel)]="searchTerm"
+          (ngModelChange)="filterLampadaires()"
+        >
+
+        <select
+          class="filter-select"
+          [(ngModel)]="filterEtat"
+          (ngModelChange)="filterLampadaires()"
+        >
+          <option value="">Tous les états</option>
+          <option value="Opérationnel">Opérationnel</option>
+          <option value="En panne">En panne</option>
+          <option value="Maintenance">Maintenance</option>
+        </select>
+
+        <select
+          class="filter-select"
+          [(ngModel)]="filterRegion"
+          (ngModelChange)="filterLampadaires()"
+        >
+          <option value="">Toutes les régions</option>
+          <option value="Centre">Centre</option>
+          <option value="Littoral">Littoral</option>
+          <option value="Nord-Ouest">Nord-Ouest</option>
+        </select>
+
+        <button class="btn-export" (click)="exporterCSV()">
+          ⬇ Exporter CSV
+        </button>
+      </div>
+
+      <div class="table-container">
+        <table class="lampadaire-table">
+          <thead>
+          <tr>
+            <th>ID Lampadaire</th>
+            <th>Localisation</th>
+            <th>Région</th>
+            <th>État</th>
+            <th>Consommation</th>
+            <th>Dernière Maintenance</th>
+            <th>Actions</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let lampadaire of filteredLampadaires">
+            <td class="id-cell">{{ lampadaire.id }}</td>
+            <td>{{ lampadaire.localisation }}</td>
+            <td>{{ lampadaire.region }}</td>
+            <td>
+                <span
+                  class="badge"
+                  [ngClass]="{
+                    'badge-operationnel': lampadaire.etat === 'Opérationnel',
+                    'badge-panne': lampadaire.etat === 'En panne',
+                    'badge-maintenance': lampadaire.etat === 'Maintenance'
+                  }"
+                >
+                  {{ lampadaire.etat }}
+                </span>
+            </td>
+            <td>{{ lampadaire.consommation }}</td>
+            <td>{{ lampadaire.derniereMaintenance }}</td>
+            <td class="actions-cell">
+              <button class="btn-action btn-modifier" (click)="modifier(lampadaire)">
+                Modifier
+              </button>
+              <button class="btn-action btn-controler" (click)="controler(lampadaire)">
+                Contrôler
+              </button>
+              <button class="btn-action btn-details" (click)="details(lampadaire)">
+                Détails
+              </button>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+
+    </div>
 </div>
