@@ -3,7 +3,7 @@ import {Overview} from './pages/overview/overview';
 import {Consommation} from './pages/consommation/consommation';
 import {Maintenance} from './pages/maintenance/maintenance';
 import {DasbordMinee} from './pages/dasbord-minee/dasbord-minee';
-import {Rapport} from './pages/rapport/rapport';
+import {Rapports} from './pages/rapport/rapport';
 import {PredictionAi} from './pages/prediction-ai/prediction-ai';
 import { Notifications} from './pages/notification/notification';
 import {Login} from './pages/login/login';
@@ -17,7 +17,7 @@ export const routes: Routes = [
   {path: 'lampadaire', component: LampadaireManagementComponent},
   {path: 'consommation', component: Consommation},
   {path: 'maintenance', component: Maintenance},
-  {path: 'rapport', component: Rapport},
+  {path: 'rapport', component: Rapports},
   {path: 'prediction-ia', component:PredictionAi},
   {path: 'notification', component: Notifications},
   {path: 'login', component: Login},
