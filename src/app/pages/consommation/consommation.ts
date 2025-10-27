@@ -16,28 +16,28 @@ import {Box} from '../../components/box/box';
 export class Consommation implements OnInit {
   // Données pour les boxes
   interventionsUrgentes = {
-    total: '567,890',
+    total: 56789,
     unit: 'kWh',
     icon: 'flash.svg',
     color: 'yellow'
   };
 
   maintenanceProgrammee = {
-    total: '34,567,890',
+    total: 356890,
     unit: 'FCFA',
     icon: 'calendar.svg',
     color: 'blue'
   };
 
   interventionsCompletees = {
-    total: '8,765,432',
+    total: 8765432,
     unit: 'FCFA économisés',
     icon: 'puzzle.svg',
     color: 'green'
   };
 
   tempsMoyenReparation = {
-    total: '87.3%',
+    total: 87.3,
     unit: 'Performance',
     icon: 'chart.svg',
     color: 'purple'

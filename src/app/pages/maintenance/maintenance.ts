@@ -40,28 +40,28 @@ interface TempsLatenceData {
 export class Maintenance implements OnInit {
   // Données pour les stats cards
   totalMaintenances = {
-    total: '12,450',
+    total: 12450,
     unit: 'Interventions',
     icon: 'wrench.svg',
     color: 'blue'
   };
 
   maintenancesUrgentes = {
-    total: '342',
+    total: 342,
     unit: 'En attente',
     icon: 'alert.svg',
     color: 'red'
   };
 
   tempsLatenceMoyen = {
-    total: '4.2h',
+    total: 4.2,
     unit: 'Temps moyen',
     icon: 'clock.svg',
     color: 'orange'
   };
 
   tauxReussite = {
-    total: '94.5%',
+    total: 94.5,
     unit: 'Taux de succès',
     icon: 'check.svg',
     color: 'green'
