@@ -1,0 +1,5 @@
+package publiclighting.cm.maintenance.enums;
+
+public enum TypePanne {
+    TENSION_TROP_HAUTE,TENSION_TROP_BASSE,LAMP,CAPTEUR_LUMINOSITE,CAPTEUR_DISTANCE,CAPTEUR_TENSION,MICRO_CONTROLEUR
+}

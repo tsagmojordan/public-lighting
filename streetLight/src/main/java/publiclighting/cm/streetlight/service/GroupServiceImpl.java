@@ -170,7 +170,6 @@ public class GroupServiceImpl implements GroupService {
 
         if (group.isHasSubgroup()) {
             groupRepository.findAllByParentId(id.toString());
-            List<Component> subgroups;
             componentDto.getGroupResponseDtos().addAll(groupRepository.findAllByParentId(id.toString()).stream()
                     .filter(c -> !c.isDeleted())
                     .map(
@@ -211,5 +210,17 @@ public class GroupServiceImpl implements GroupService {
         } else {
             throw new CustomException("parent group is not a group", HttpStatus.CONFLICT);
         }
+    }
+
+    public GroupResponseDto findGroupAndChildren(Long groupId) throws CustomException {
+
+        //recuperer tous les lampadaires du groupe
+
+        //recuperer tous les sous groupes
+
+        //parcourir la liste des sous groupe
+
+        //recuperer la list
+        return null;
     }
 }

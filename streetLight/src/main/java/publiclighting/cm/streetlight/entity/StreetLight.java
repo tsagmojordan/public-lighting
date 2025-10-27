@@ -24,6 +24,8 @@ public class StreetLight extends Component {
     @Enumerated(EnumType.STRING)
     private State state=State.OFF;
 
+    private boolean isIntegrate=false; //le lampadaire possède un module smart de smep?
+
     @Builder(builderMethodName = "streetLightBuilder")
     public StreetLight( Date createAt, boolean isDeleted, String entityName, Date updateAt,
                        Location location, LightingProfile lightingProfile,

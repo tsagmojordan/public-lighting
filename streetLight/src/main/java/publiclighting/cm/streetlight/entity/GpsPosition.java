@@ -22,6 +22,9 @@ public class GpsPosition {
     private double longitude;
     private double latitude;
     private double hauteur;
+    private String communieId;
 
 
+    public GpsPosition(String notAvailable, double v, double v1, double v2) {
+    }
 }

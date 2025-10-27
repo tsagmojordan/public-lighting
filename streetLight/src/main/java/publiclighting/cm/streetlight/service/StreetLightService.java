@@ -8,6 +8,8 @@ import publiclighting.cm.streetlight.dto.StreetLightResponseDto;
 import publiclighting.cm.streetlight.entity.Component;
 import publiclighting.cm.streetlight.entity.StreetLight;
 import publiclighting.cm.streetlight.exception.CustomException;
+import publiclighting.cm.streetlight.vo.DataIncoming;
+import publiclighting.cm.streetlight.vo.Panne;
 
 import java.util.List;
 
@@ -23,4 +25,5 @@ public interface StreetLightService {
     List<StreetLight> findAllByParentId(Long id) throws CustomException;
 
 
+    List<Panne> verifierPanne(DataIncoming dataIncoming);
 }

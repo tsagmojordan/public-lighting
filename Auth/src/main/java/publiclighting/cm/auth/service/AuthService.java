@@ -54,7 +54,7 @@ public class AuthService {
     }
 
     public String register(RegisterDto registerDto) {
-        if (userRepository.existsByUsername(registerDto.getUsername())) {
+        if (Boolean.TRUE.equals(userRepository.existsByUsername(registerDto.getUsername()))) {
             throw new RuntimeException("Username is already taken");
         }
 
@@ -67,7 +67,7 @@ public class AuthService {
         user.setEmail(registerDto.getEmail());
         user.setPassword(passwordEncoder.encode(registerDto.getPassword()));
 
-        Role role = roleRepository.findByName("ROLE_USER")
+        Role role = roleRepository.findByName(registerDto.getRole().toString())
                 .orElseThrow(() -> new RuntimeException("Role not found"));
         user.setRoles(Collections.singleton(role));
 

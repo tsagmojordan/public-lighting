@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import publiclighting.cm.streetlight.dto.LampDto;
 import publiclighting.cm.streetlight.dto.StreetLightDto;
 import publiclighting.cm.streetlight.dto.StreetLightResponseDto;
@@ -14,7 +15,12 @@ import publiclighting.cm.streetlight.enums.State;
 import publiclighting.cm.streetlight.exception.CustomException;
 import publiclighting.cm.streetlight.repository.*;
 import publiclighting.cm.streetlight.utils.Constant;
+import publiclighting.cm.streetlight.vo.DataIncoming;
+import publiclighting.cm.streetlight.vo.Panne;
 
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -152,6 +158,135 @@ public class StreetLightServiceImpl implements StreetLightService {
                 .filter(component -> !component.isDeleted())
                 .toList();
     }
+
+    @Override
+    public List<Panne> verifierPanne(DataIncoming dataIncoming) {
+        List<Panne> pannes = new ArrayList<>();
+
+        log.info("🔍 Vérification des pannes pour le lampadaire [{}]", dataIncoming.serialNumber());
+
+        // 1️⃣ Récupération des informations contextuelles
+        StreetLight streetLight = streetLightRepository.findBySerialNumber(dataIncoming.serialNumber());
+        if (streetLight == null) {
+            log.error("❌ Aucun lampadaire trouvé pour le numéro de série [{}]", dataIncoming.serialNumber());
+            return List.of(new Panne(
+                    dataIncoming.serialNumber(),
+                    dataIncoming.dataCollectedTime(),
+                    "Lampadaire inconnu dans le système.",
+                    new GpsPosition("Not available",0.0, 0.0,0.0)
+            ));
+        }
+
+        GpsPosition localisation = streetLight.getGpsPosition();
+        LocalDateTime now = dataIncoming.dataCollectedTime();
+        LocalTime heure = now.toLocalTime();
+
+        log.debug("🕒 Données reçues à {} pour le lampadaire [{}]", now, dataIncoming.serialNumber());
+        log.debug("📍 Localisation GPS : {}", localisation);
+
+        // 2️⃣ Définition des heures normales de fonctionnement (ex. 18h à 6h)
+        LocalTime heureDebut = LocalTime.of(18, 0);
+        LocalTime heureFin = LocalTime.of(6, 0);
+        boolean estHeureDeFonctionnement = (heure.isAfter(heureDebut) || heure.isBefore(heureFin));
+
+        log.debug("⏰ Heure actuelle : {}, période de fonctionnement active : {}", heure, estHeureDeFonctionnement);
+
+        // 3️⃣ Vérification tension d’alimentation
+        if (dataIncoming.tension() < 180) {
+            log.warn("⚠️ Tension basse détectée : {}V", dataIncoming.tension());
+            pannes.add(new Panne(
+                    dataIncoming.serialNumber(),
+                    now,
+                    "Tension d’alimentation trop basse (" + dataIncoming.tension() + "V).",
+                    localisation
+            ));
+        } else if (dataIncoming.tension() > 260) {
+            log.warn("⚠️ Tension élevée détectée : {}V", dataIncoming.tension());
+            pannes.add(new Panne(
+                    dataIncoming.serialNumber(),
+                    now,
+                    "Tension d’alimentation trop élevée (" + dataIncoming.tension() + "V).",
+                    localisation
+            ));
+        } else {
+            log.debug("✅ Tension d’alimentation normale : {}V", dataIncoming.tension());
+        }
+
+        // 4️⃣ Vérifier inclinaison
+        if (dataIncoming.inclination() > 30) {
+            log.warn("⚠️ Inclinaison anormale détectée : {}°", dataIncoming.inclination());
+            pannes.add(new Panne(
+                    dataIncoming.serialNumber(),
+                    now,
+                    "Inclinaison anormale détectée (" + dataIncoming.inclination() + "°).",
+                    localisation
+            ));
+        } else {
+            log.debug("✅ Inclinaison correcte : {}°", dataIncoming.inclination());
+        }
+
+        // 5️⃣ Cohérence lumière / voltage selon l'heure
+        if (estHeureDeFonctionnement) {
+            log.debug("🌙 Période nocturne détectée - la lampe devrait être allumée.");
+            if (!dataIncoming.isLightOn()) {
+                log.warn("⚠️ Lampe éteinte alors qu’elle devrait être allumée (nuit).");
+                pannes.add(new Panne(
+                        dataIncoming.serialNumber(),
+                        now,
+                        "Lampe éteinte alors qu’elle devrait être allumée (période nocturne).",
+                        localisation
+                ));
+            } else if (dataIncoming.voltage() < 100) {
+                log.warn("⚠️ Lampe allumée mais voltage de sortie faible : {}V", dataIncoming.voltage());
+                pannes.add(new Panne(
+                        dataIncoming.serialNumber(),
+                        now,
+                        "Lampe allumée mais voltage de sortie trop faible (" + dataIncoming.voltage() + "V).",
+                        localisation
+                ));
+            } else {
+                log.debug("✅ Éclairage actif et tension de sortie correcte : {}V", dataIncoming.voltage());
+            }
+        } else {
+            log.debug("☀️ Période diurne - la lampe devrait être éteinte.");
+            if (dataIncoming.isLightOn() && dataIncoming.voltage() > 100) {
+                log.warn("⚠️ Lampe allumée en dehors des heures de fonctionnement ({}V).", dataIncoming.voltage());
+                pannes.add(new Panne(
+                        dataIncoming.serialNumber(),
+                        now,
+                        "Lampe allumée en dehors des heures de fonctionnement.",
+                        localisation
+                ));
+            } else {
+                log.debug("✅ Lampe éteinte comme prévu pendant la journée.");
+            }
+        }
+
+        // 6️⃣ Présence détectée sans lumière (uniquement si période nocturne)
+        if (estHeureDeFonctionnement &&
+                dataIncoming.numberOfPresenceDetected() > 0 &&
+                !dataIncoming.isLightOn()) {
+            log.warn("⚠️ Présence détectée ({}) mais lampe éteinte.", dataIncoming.numberOfPresenceDetected());
+            pannes.add(new Panne(
+                    dataIncoming.serialNumber(),
+                    now,
+                    "Présence détectée mais lampe éteinte (nuit).",
+                    localisation
+            ));
+        }
+
+        // 7️⃣ Résumé
+        if (pannes.isEmpty()) {
+            log.info("✅ Aucune panne détectée pour le lampadaire [{}]", dataIncoming.serialNumber());
+        } else {
+            log.info("🚨 {} panne(s) détectée(s) pour le lampadaire [{}]", pannes.size(), dataIncoming.serialNumber());
+            pannes.forEach(p -> log.info("👉 {}", p.description()));
+        }
+
+        return pannes;
+    }
+
+
 
 
 }

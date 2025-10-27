@@ -5,10 +5,14 @@
     <option name="originalFiles">
       <list>
         <option value="$PROJECT_DIR$/streetLight/pom.xml" />
+        <option value="$PROJECT_DIR$/Auth/pom.xml" />
+        <option value="$PROJECT_DIR$/StreetLightDataCollector/pom.xml" />
+        <option value="$PROJECT_DIR$/streetLightDataCollector/pom.xml" />
+        <option value="$PROJECT_DIR$/maintenance/pom.xml" />
       </list>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_4" project-jdk-name="22" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_21" project-jdk-name="23" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/out" />
   </component>
 </project>

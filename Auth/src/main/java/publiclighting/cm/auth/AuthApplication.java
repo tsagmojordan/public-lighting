@@ -29,5 +29,13 @@ public class AuthApplication implements CommandLineRunner {
         role.setName("ROLE_USER");
         role.setId(3L);
         roleRepository.save(role);
+        role.setName("MUNICIPALITY");
+        role.setId(4L);
+        roleRepository.save(role);
+        role.setName("MAINTAINER");
+        role.setId(5L);
+        role.setName("SUPERADMIN");
+        role.setId(6L);
+        roleRepository.save(role);
     }
 }
